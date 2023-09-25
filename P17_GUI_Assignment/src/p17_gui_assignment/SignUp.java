@@ -208,6 +208,11 @@ public class SignUp extends javax.swing.JFrame {
 
         // Call a method to insert user registration data into the table
         insertUserData(firstName, lastName, email, password);
+        
+         Login loginPage = new Login(); // Assuming Login is the name of your login page class
+    loginPage.setVisible(true);
+    
+     this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
