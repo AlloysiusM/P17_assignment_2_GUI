@@ -16,7 +16,7 @@ public class DB_Manager {
 
     private static Connection connection;
     private static final String DB_URL = "jdbc:derby://localhost:1527/OSS_DB";
-    private static final String DB_USER = "admin17"; // Replace with your Derby username
+    private static final String DB_USER = "admin17"; // Replace with your Derby usernanme
     private static final String DB_PASSWORD = "admin"; // Replace with your Derby password
 
     public static Connection getConnection() {
