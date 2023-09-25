@@ -8,6 +8,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 public class SignUp extends javax.swing.JFrame {
 
@@ -23,16 +26,26 @@ public class SignUp extends javax.swing.JFrame {
     private void createUsersTable() {
         try {
             Connection connection = DB_Manager.getConnection();
-            // Define the SQL statement for table creation
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS users ("
-                    + "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
-                    + "first_name VARCHAR(255),"
-                    + "last_name VARCHAR(255),"
-                    + "email VARCHAR(255),"
-                    + "password VARCHAR(255))";
 
-            // Execute the SQL statement
-            connection.createStatement().execute(createTableSQL);
+            // Check if the table already exists
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet tables = metaData.getTables(null, null, "USERS", null);
+
+            if (!tables.next()) {
+                // Table does not exist, so create it
+                String createTableSQL = "CREATE TABLE users ("
+                        + "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
+                        + "first_name VARCHAR(255),"
+                        + "last_name VARCHAR(255),"
+                        + "email VARCHAR(255),"
+                        + "password VARCHAR(255))";
+
+                // Execute the SQL statement
+                connection.createStatement().execute(createTableSQL);
+            }
+
+            // Close the result set
+            tables.close();
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle any SQL errors here
@@ -183,6 +196,12 @@ public class SignUp extends javax.swing.JFrame {
         String lastName = jTextField2.getText();
         String email = jTextField3.getText();
         String password = jTextField4.getText();
+
+        // Check if any of the fields are empty
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all the fields.");
+            return; // Exit the method without attempting sign-up
+        }
 
         // Call a method to create the table if it doesn't exist
         createUsersTable();
