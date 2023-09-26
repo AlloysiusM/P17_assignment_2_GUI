@@ -209,7 +209,9 @@ public class Login extends javax.swing.JFrame {
 
         // Check if the user exists in the database
         if (isValidUser(email, password)) {
-            JOptionPane.showMessageDialog(this, "Logged in!");
+            MainShoppingFrame mainFrame = new MainShoppingFrame(email); // Pass the email
+            mainFrame.setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Login failed. Email or password is incorrect.");
         }
@@ -236,7 +238,9 @@ public class Login extends javax.swing.JFrame {
 
         // Check if the user exists in the database
         if (isValidUser(email, password)) {
-            JOptionPane.showMessageDialog(this, "Logged in!");
+            MainShoppingFrame mainFrame = new MainShoppingFrame(email);
+            mainFrame.setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Login failed. Email or password is incorrect.");
         }
