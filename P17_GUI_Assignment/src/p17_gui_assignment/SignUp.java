@@ -142,7 +142,7 @@ public class SignUp extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(101, 157, 189));
         jLabel4.setText("Last Name:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(450, 200, 60, 16);
+        jLabel4.setBounds(450, 200, 100, 16);
         jPanel1.add(jTextField2);
         jTextField2.setBounds(450, 220, 300, 22);
 
