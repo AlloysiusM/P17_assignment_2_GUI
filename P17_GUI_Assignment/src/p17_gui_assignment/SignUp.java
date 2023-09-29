@@ -4,15 +4,11 @@ package p17_gui_assignment;
  *
  * @author Albrent Manlutac
  */
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 public class SignUp extends javax.swing.JFrame {
+
+    private UserDB userDB;
 
     /**
      * Creates new form SignUp
@@ -21,57 +17,9 @@ public class SignUp extends javax.swing.JFrame {
         initComponents();
         setSize(800, 500); // Set the default size to 800x500
         setResizable(false); // Disable resizing
-    }
 
-    private void createUsersTable() {
-        try {
-            Connection connection = DB_Manager.getConnection();
-
-            // Check if the table already exists
-            DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet tables = metaData.getTables(null, null, "USERS", null);
-
-            if (!tables.next()) {
-                // Table does not exist, so create it
-                String createTableSQL = "CREATE TABLE users ("
-                        + "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
-                        + "first_name VARCHAR(255),"
-                        + "last_name VARCHAR(255),"
-                        + "email VARCHAR(255),"
-                        + "password VARCHAR(255))";
-
-                // Execute the SQL statement
-                connection.createStatement().execute(createTableSQL);
-            }
-
-            // Close the result set
-            tables.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle any SQL errors here
-        }
-    }
-
-    private void insertUserData(String firstName, String lastName, String email, String password) {
-        try {
-            Connection connection = DB_Manager.getConnection();
-            // Define the SQL statement for inserting user data
-            String insertDataSQL = "INSERT INTO users (first_name, last_name, email, password) "
-                    + "VALUES (?, ?, ?, ?)";
-
-            // Create a prepared statement and set the parameters
-            PreparedStatement preparedStatement = connection.prepareStatement(insertDataSQL);
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, password);
-
-            // Execute the SQL statement
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle any SQL errors here
-        }
+        // Initialize UserDB
+        userDB = new UserDB();
     }
 
     @SuppressWarnings("unchecked")
@@ -203,16 +151,15 @@ public class SignUp extends javax.swing.JFrame {
             return; // Exit the method without attempting sign-up
         }
 
-        // Call a method to create the table if it doesn't exist
-        createUsersTable();
+        // Call methods from UserDB to create table and insert user data
+        userDB.createUsersTable();
+        userDB.insertUserData(firstName, lastName, email, password);
 
-        // Call a method to insert user registration data into the table
-        insertUserData(firstName, lastName, email, password);
-        
-         Login loginPage = new Login(); // Assuming Login is the name of your login page class
-    loginPage.setVisible(true);
-    
-     this.dispose();
+        // Redirect to the login page
+        Login loginPage = new Login();
+        loginPage.setVisible(true);
+        this.dispose(); // Close the current sign-up window
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
