@@ -5,6 +5,13 @@
 package p17_gui_assignment;
 
 import java.awt.CardLayout;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
 
 /**
  *
@@ -15,7 +22,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     CardLayout cardLayout;
 
     private String userEmail;
-
+   
     /**
      * Creates new form MainShoppingFrame
      */
@@ -24,11 +31,97 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         setSize(800, 500); // Set the default size to 800x500
         setResizable(false);
         this.userEmail = userEmail;
-        jLabel1.setText("User: " + userEmail);
-        
+       jLabel1.setText("User: " + userEmail);
         cardLayout = (CardLayout) layoutCard.getLayout();
         cardLayout.show(layoutCard, "ProfilePanel");
+        
+        
+      String firstName = getUserFirstNameFromDatabase(userEmail); 
+      String lastName = getUserLastNameFromDatabase(userEmail); 
+      jLabel2.setText("First Name: "+firstName);
+      jLabel4.setText("Last Name: "+lastName);
+       jLabel3.setText("Email: "+userEmail);
+     
     }
+    
+    
+    
+     private String getUserFirstNameFromDatabase(String email) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish a database connection (you should have your database URL, user, and password here)
+            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/OSS_DB", "admin17", "admin");
+
+            // Define the SQL query to retrieve the user's first name based on email
+            String query = "SELECT FIRST_NAME FROM ADMIN17.USERS WHERE email = ?";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("first_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any database errors here
+        } finally {
+            // Close database resources properly in a finally block
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Return a default value or handle the case where the user's first name is not found
+        return "Unknown";
+    }
+     
+     private String getUserLastNameFromDatabase(String email) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish a database connection (you should have your database URL, user, and password here)
+            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/OSS_DB", "admin17", "admin");
+
+            // Define the SQL query to retrieve the user's last name based on email
+            String query = "SELECT LAST_NAME FROM ADMIN17.USERS WHERE email = ?";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("LAST_NAME");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any database errors here
+        } finally {
+            // Close database resources properly in a finally block
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Return a default value or handle the case where the user's last name is not found
+        return "Unknown";
+    }
+     
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,6 +144,9 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         layoutCard = new javax.swing.JPanel();
         profilePanel = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         allProductsPanel = new javax.swing.JPanel();
         Catgory = new javax.swing.JPanel();
         shoppingCart = new javax.swing.JPanel();
@@ -185,15 +281,36 @@ public class MainShoppingFrame extends javax.swing.JFrame {
 
         profilePanel.setBackground(new java.awt.Color(204, 204, 255));
 
+        jLabel2.setForeground(new java.awt.Color(60, 63, 65));
+
+        jLabel3.setForeground(new java.awt.Color(60, 63, 65));
+
+        jLabel4.setText("jLabel4");
+
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
         profilePanelLayout.setHorizontalGroup(
             profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGroup(profilePanelLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(profilePanelLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel4)))
+                .addContainerGap(267, Short.MAX_VALUE))
         );
         profilePanelLayout.setVerticalGroup(
             profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 361, Short.MAX_VALUE)
+            .addGroup(profilePanelLayout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addGap(19, 19, 19)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(220, Short.MAX_VALUE))
         );
 
         layoutCard.add(profilePanel, "card2");
@@ -205,7 +322,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         allProductsPanel.setLayout(allProductsPanelLayout);
         allProductsPanelLayout.setHorizontalGroup(
             allProductsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGap(0, 566, Short.MAX_VALUE)
         );
         allProductsPanelLayout.setVerticalGroup(
             allProductsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +337,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         Catgory.setLayout(CatgoryLayout);
         CatgoryLayout.setHorizontalGroup(
             CatgoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGap(0, 566, Short.MAX_VALUE)
         );
         CatgoryLayout.setVerticalGroup(
             CatgoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,7 +352,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         shoppingCart.setLayout(shoppingCartLayout);
         shoppingCartLayout.setHorizontalGroup(
             shoppingCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGap(0, 566, Short.MAX_VALUE)
         );
         shoppingCartLayout.setVerticalGroup(
             shoppingCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,7 +371,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(layoutCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,6 +439,9 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
