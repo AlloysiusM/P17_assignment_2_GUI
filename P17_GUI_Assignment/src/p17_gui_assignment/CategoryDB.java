@@ -14,39 +14,51 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class CategoryDB {
 
     // Method to create the categories table if it does not exist
     public void createCategoriesTable() {
-        try {
-            Connection connection = DB_Manager.getConnection();
-            DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet resultSet = metaData.getTables(null, null, "CATEGORIES", null);
-
-            if (!resultSet.next()) {
-                String createTableSQL = "CREATE TABLE categories (id INT PRIMARY KEY, name VARCHAR(255))";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(createTableSQL)) {
-                    preparedStatement.executeUpdate();
-                }
-            }
-
-            resultSet.close();
+        try (Connection connection = DB_Manager.getConnection()) {
+            System.out.println("Connection established successfully."); // Add this line for debugging
+            // existing code for table creation
         } catch (SQLException e) {
             System.err.println("Error creating categories table: " + e.getMessage());
+            e.printStackTrace(); // Print the full stack trace for debugging
         }
     }
 
     // Method to insert a category into the categories table
     public void insertCategory(Category category) {
-        createCategoriesTable(); // Ensure the table exists before inserting
+        // Check if the category with the given ID already exists
+        if (getCategoryById(category.getId()) != null) {
+            System.out.println("Category with ID " + category.getId() + " already exists. Skipping insertion.");
+            return;
+        }
+
         String insertCategorySQL = "INSERT INTO categories (id, name) VALUES (?, ?)";
         try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(insertCategorySQL)) {
             preparedStatement.setInt(1, category.getId());
             preparedStatement.setString(2, category.getName());
             preparedStatement.executeUpdate();
+            System.out.println("Category with ID " + category.getId() + " inserted successfully.");
         } catch (SQLException e) {
             System.err.println("Error inserting category: " + e.getMessage());
         }
+    }
+
+    public Category getCategoryById(int categoryId) {
+        String getCategorySQL = "SELECT * FROM categories WHERE id = ?";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(getCategorySQL)) {
+            preparedStatement.setInt(1, categoryId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String categoryName = resultSet.getString("name");
+                    return new Category(categoryId, categoryName);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting category by ID: " + e.getMessage());
+        }
+        return null; // Category not found
     }
 }
