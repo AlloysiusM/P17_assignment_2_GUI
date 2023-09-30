@@ -282,10 +282,13 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         profilePanel.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel2.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel2.setText("FirstName");
 
         jLabel3.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel3.setText("Email");
 
-        jLabel4.setText("jLabel4");
+        jLabel4.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel4.setText("LastName");
 
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
@@ -296,16 +299,16 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(profilePanelLayout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(jLabel4)))
-                .addContainerGap(267, Short.MAX_VALUE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
         profilePanelLayout.setVerticalGroup(
             profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profilePanelLayout.createSequentialGroup()
                 .addGap(82, 82, 82)
-                .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4))
                 .addGap(19, 19, 19)
@@ -322,7 +325,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         allProductsPanel.setLayout(allProductsPanelLayout);
         allProductsPanelLayout.setHorizontalGroup(
             allProductsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 566, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
         );
         allProductsPanelLayout.setVerticalGroup(
             allProductsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,7 +340,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         Catgory.setLayout(CatgoryLayout);
         CatgoryLayout.setHorizontalGroup(
             CatgoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 566, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
         );
         CatgoryLayout.setVerticalGroup(
             CatgoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,7 +355,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         shoppingCart.setLayout(shoppingCartLayout);
         shoppingCartLayout.setHorizontalGroup(
             shoppingCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 566, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
         );
         shoppingCartLayout.setVerticalGroup(
             shoppingCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,7 +374,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(layoutCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
