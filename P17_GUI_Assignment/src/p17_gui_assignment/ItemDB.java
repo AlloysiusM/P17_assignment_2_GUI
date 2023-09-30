@@ -13,8 +13,17 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDB {
+
+    private CategoryDB categoryDB;
+
+    // Constructor to initialize CategoryDB
+    public ItemDB(CategoryDB categoryDB) {
+        this.categoryDB = categoryDB;
+    }
 
     // Method to create the items table if it does not exist
     public void createItemsTable() {
@@ -44,6 +53,13 @@ public class ItemDB {
     // Method to insert an item into the items table
     public void insertItem(Item item) {
         createItemsTable(); // Ensure the table exists before inserting
+
+        // Check if the item with the given ID already exists
+        if (getItemById(item.getId()) != null) {
+            System.out.println("Item with ID " + item.getId() + " already exists. Skipping insertion.");
+            return;
+        }
+
         String insertItemSQL = "INSERT INTO items (id, name, price, productInfo, category_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(insertItemSQL)) {
             preparedStatement.setString(1, item.getId());
@@ -55,5 +71,95 @@ public class ItemDB {
         } catch (SQLException e) {
             System.err.println("Error inserting item: " + e.getMessage());
         }
+    }
+
+    public Item getItemById(String itemId) {
+        String getItemSQL = "SELECT * FROM items WHERE id = ?";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(getItemSQL)) {
+            preparedStatement.setString(1, itemId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Retrieve other item details from the ResultSet and return the item
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting item by ID: " + e.getMessage());
+        }
+        return null; // Item not found
+    }
+
+    // Method to update an item in the items table
+    public void updateItem(Item item) {
+        String updateItemSQL = "UPDATE items SET name=?, price=?, productInfo=?, category_id=? WHERE id=?";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(updateItemSQL)) {
+            preparedStatement.setString(1, item.getName());
+            preparedStatement.setDouble(2, item.getPrice());
+            preparedStatement.setString(3, item.getProductInfo());
+            preparedStatement.setInt(4, item.getCategory().getId());
+            preparedStatement.setString(5, item.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating item: " + e.getMessage());
+        }
+    }
+
+    // Method to delete an item from the items table by its ID
+    public void deleteItem(String itemId) {
+        String deleteItemSQL = "DELETE FROM items WHERE id=?";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(deleteItemSQL)) {
+            preparedStatement.setString(1, itemId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error deleting item: " + e.getMessage());
+        }
+    }
+
+    public List<Item> getAllItems() {
+        List<Item> items = new ArrayList<>();
+        String selectAllItemsSQL = "SELECT * FROM items";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(selectAllItemsSQL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String id = resultSet.getString("id");
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                String productInfo = resultSet.getString("productInfo");
+                int categoryId = resultSet.getInt("category_id");
+
+                // Retrieve the category from the CategoryDB object
+                Category category = categoryDB.getCategoryById(categoryId);
+
+                Item item = new Item(id, name, price, productInfo, category) {
+                };
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving items: " + e.getMessage());
+        }
+        return items;
+    }
+
+    public List<Item> getItemsByCategory(Category category) {
+        List<Item> items = new ArrayList<>();
+        String selectItemsByCategorySQL = "SELECT * FROM items WHERE category_id = ?";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(selectItemsByCategorySQL)) {
+            preparedStatement.setInt(1, category.getId()); // Pass the category ID to the SQL query
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String id = resultSet.getString("id");
+                    String name = resultSet.getString("name");
+                    double price = resultSet.getDouble("price");
+                    String productInfo = resultSet.getString("productInfo");
+
+                    // Create the item with the retrieved data
+                    Item item = new Item(id, name, price, productInfo, category) {
+                    };
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving items by category: " + e.getMessage());
+        }
+        return items;
     }
 }
