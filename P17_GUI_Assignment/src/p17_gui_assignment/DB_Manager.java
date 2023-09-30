@@ -19,16 +19,17 @@ public class DB_Manager {
     private static final String DB_USER = "admin17"; // Replace with your Derby usernanme
     private static final String DB_PASSWORD = "admin"; // Replace with your Derby password
 
-    public static Connection getConnection() {
-        if (connection == null) {
+    public static Connection getConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
             try {
                 // Establish the database connection with username and password
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             } catch (SQLException e) {
                 e.printStackTrace();
-                // Handle any database connection errors here
+                throw e; // Rethrow the exception after printing the stack trace
             }
         }
         return connection;
     }
+
 }
