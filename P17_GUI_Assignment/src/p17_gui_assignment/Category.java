@@ -10,21 +10,17 @@ package p17_gui_assignment;
  */
 class Category {
 
-    private String name;
-    private String description;
     private int id;
+    private String name;
+    
 
-    public Category(String name, String description) {
+    public Category(int id, String name) {
+        this.id = id;
         this.name = name;
-        this.description = description;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public int getId() {
