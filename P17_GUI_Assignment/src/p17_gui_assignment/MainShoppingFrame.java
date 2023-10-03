@@ -11,8 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-
 /**
  *
  * @author Albrent Manlutac
@@ -22,7 +20,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     CardLayout cardLayout;
 
     private String userEmail;
-   
+
     /**
      * Creates new form MainShoppingFrame
      */
@@ -31,22 +29,19 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         setSize(800, 500); // Set the default size to 800x500
         setResizable(false);
         this.userEmail = userEmail;
-       jLabel1.setText("User: " + userEmail);
+        jLabel1.setText("User: " + userEmail);
         cardLayout = (CardLayout) layoutCard.getLayout();
         cardLayout.show(layoutCard, "ProfilePanel");
-        
-        
-      String firstName = getUserFirstNameFromDatabase(userEmail); 
-      String lastName = getUserLastNameFromDatabase(userEmail); 
-      jLabel2.setText("First Name: "+firstName);
-      jLabel4.setText("Last Name: "+lastName);
-       jLabel3.setText("Email: "+userEmail);
-     
+
+        String firstName = getUserFirstNameFromDatabase(userEmail);
+        String lastName = getUserLastNameFromDatabase(userEmail);
+        jLabel2.setText("First Name: " + firstName);
+        jLabel4.setText("Last Name: " + lastName);
+        jLabel3.setText("Email: " + userEmail);
+
     }
-    
-    
-    
-     private String getUserFirstNameFromDatabase(String email) {
+
+    private String getUserFirstNameFromDatabase(String email) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -71,9 +66,15 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         } finally {
             // Close database resources properly in a finally block
             try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -82,8 +83,8 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         // Return a default value or handle the case where the user's first name is not found
         return "Unknown";
     }
-     
-     private String getUserLastNameFromDatabase(String email) {
+
+    private String getUserLastNameFromDatabase(String email) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -108,9 +109,15 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         } finally {
             // Close database resources properly in a finally block
             try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -119,10 +126,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         // Return a default value or handle the case where the user's last name is not found
         return "Unknown";
     }
-     
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
