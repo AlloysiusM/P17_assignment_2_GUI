@@ -32,6 +32,7 @@ public class ItemDB {
             DatabaseMetaData metaData = connection.getMetaData();
             ResultSet resultSet = metaData.getTables(null, null, "ITEMS", null);
 
+            // Check if the table already exists
             if (!resultSet.next()) {
                 String createTableSQL = "CREATE TABLE items ("
                         + "id VARCHAR(255) PRIMARY KEY, "
@@ -42,36 +43,39 @@ public class ItemDB {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(createTableSQL)) {
                     preparedStatement.executeUpdate();
                 }
+                System.out.println("Items table created successfully.");
+            } else {
+                System.out.println("Items table already exists.");
             }
 
             resultSet.close();
         } catch (SQLException e) {
-            System.err.println("Error creating items table: " + e.getMessage());
+            System.err.println("Error creating or checking items table: " + e.getMessage());
         }
     }
 
-    // Method to insert an item into the items table
-public void insertItem(Item item) {
-    createItemsTable(); // Ensure the table exists before inserting
+// Method to insert an item into the items table, avoiding duplicates based on category ID
+    public void insertItem(Item item) {
+        createItemsTable(); // Ensure the table exists before inserting
 
-    String insertItemSQL = "INSERT INTO items (id, name, price, productInfo, category_id) VALUES (?, ?, ?, ?, ?)";
-    try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(insertItemSQL)) {
-        preparedStatement.setString(1, item.getId());
-        preparedStatement.setString(2, item.getName());
-        preparedStatement.setDouble(3, item.getPrice());
-        preparedStatement.setString(4, item.getProductInfo());
-        preparedStatement.setInt(5, item.getCategory().getId());
-        preparedStatement.executeUpdate();
-    } catch (SQLException e) {
-        // Handle duplicate key violation error
-        if (e.getSQLState().equals("23505")) {
-            System.out.println("Item with ID " + item.getId() + " already exists. Skipping insertion.");
-        } else {
+        // Check if the category with the given ID already exists
+        Category category = item.getCategory();
+        if (categoryDB.getCategoryById(category.getId()) != null) {
+            return; // Skip insertion if category already exists
+        }
+
+        String insertItemSQL = "INSERT INTO items (id, name, price, productInfo, category_id) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(insertItemSQL)) {
+            preparedStatement.setString(1, item.getId());
+            preparedStatement.setString(2, item.getName());
+            preparedStatement.setDouble(3, item.getPrice());
+            preparedStatement.setString(4, item.getProductInfo());
+            preparedStatement.setInt(5, category.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
             System.err.println("Error inserting item: " + e.getMessage());
         }
     }
-}
-
 
     public Item getItemById(String itemId) {
         String getItemSQL = "SELECT * FROM items WHERE id = ?";
