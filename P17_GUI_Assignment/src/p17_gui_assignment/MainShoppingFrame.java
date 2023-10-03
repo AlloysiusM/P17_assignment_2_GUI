@@ -26,7 +26,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
      */
     public MainShoppingFrame(String userEmail) {
         initComponents();
-        setSize(800, 500); // Set the default size to 800x500
+        setSize(900, 500); // Set the default size to 800x500
         setResizable(false);
         this.userEmail = userEmail;
         jLabel1.setText("User: " + userEmail);
@@ -38,7 +38,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jLabel2.setText("First Name: " + firstName);
         jLabel4.setText("Last Name: " + lastName);
         jLabel3.setText("Email: " + userEmail);
-
     }
 
     private String getUserFirstNameFromDatabase(String email) {
@@ -152,6 +151,8 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         allProductsPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         Catgory = new javax.swing.JPanel();
         shoppingCart = new javax.swing.JPanel();
 
@@ -325,15 +326,34 @@ public class MainShoppingFrame extends javax.swing.JFrame {
 
         allProductsPanel.setBackground(new java.awt.Color(153, 204, 255));
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout allProductsPanelLayout = new javax.swing.GroupLayout(allProductsPanel);
         allProductsPanel.setLayout(allProductsPanelLayout);
         allProductsPanelLayout.setHorizontalGroup(
             allProductsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 625, Short.MAX_VALUE)
+            .addGroup(allProductsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+                .addContainerGap())
         );
         allProductsPanelLayout.setVerticalGroup(
             allProductsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 361, Short.MAX_VALUE)
+            .addGroup(allProductsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         layoutCard.add(allProductsPanel, "card3");
@@ -378,7 +398,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(layoutCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,15 +417,13 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 903, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
 
         pack();
@@ -453,6 +471,8 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel layoutCard;
     private javax.swing.JPanel profilePanel;
     private javax.swing.JPanel shoppingCart;
