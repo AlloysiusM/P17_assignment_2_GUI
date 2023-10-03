@@ -8,7 +8,6 @@ package p17_gui_assignment;
  *
  * @author Albrent Manlutac
  */
-
 public abstract class Item {
 
     private String id;
