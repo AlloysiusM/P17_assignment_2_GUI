@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +20,7 @@ import java.sql.SQLException;
 public class MainShoppingFrame extends javax.swing.JFrame {
 
     CardLayout cardLayout;
+    private ItemDB itemDB;
 
     private String userEmail;
 
@@ -38,6 +41,28 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jLabel2.setText("First Name: " + firstName);
         jLabel4.setText("Last Name: " + lastName);
         jLabel3.setText("Email: " + userEmail);
+
+        // Create an instance of CategoryDB (assuming CategoryDB is a class)
+        CategoryDB categoryDB = new CategoryDB(/* constructor arguments if any */);
+
+        // Pass the CategoryDB object to the ItemDB constructor
+        itemDB = new ItemDB(categoryDB);
+
+        // Call the method to populate the table with items AFTER initializing itemDB
+        populateItemsTable();
+
+    }
+
+    // Method to populate the table with items
+    private void populateItemsTable() {
+        List<Item> items = itemDB.getAllItems();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        for (Item item : items) {
+            Object[] rowData = {item.getId(), item.getName(), item.getPrice(), item.getProductInfo(), item.getCategory().getName()};
+            model.addRow(rowData);
+        }
     }
 
     private String getUserFirstNameFromDatabase(String email) {
@@ -326,17 +351,27 @@ public class MainShoppingFrame extends javax.swing.JFrame {
 
         allProductsPanel.setBackground(new java.awt.Color(153, 204, 255));
 
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
+        jTable1.setForeground(new java.awt.Color(60, 63, 65));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Name", "Price", "Info", "Category"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout allProductsPanelLayout = new javax.swing.GroupLayout(allProductsPanel);
