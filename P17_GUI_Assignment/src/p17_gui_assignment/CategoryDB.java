@@ -13,6 +13,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryDB {
 
@@ -58,6 +60,40 @@ public class CategoryDB {
             }
         } catch (SQLException e) {
             System.err.println("Error getting category by ID: " + e.getMessage());
+        }
+        return null; // Category not found
+    }
+
+    public List<Category> getAllCategories() {
+        List<Category> categories = new ArrayList<>();
+        String getAllCategoriesSQL = "SELECT * FROM categories";
+
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(getAllCategoriesSQL); ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                Category category = new Category(id, name);
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting all categories: " + e.getMessage());
+        }
+        return categories;
+    }
+
+    public Category getCategoryByName(String categoryName) {
+        String getCategorySQL = "SELECT * FROM categories WHERE name = ?";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(getCategorySQL)) {
+            preparedStatement.setString(1, categoryName);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int categoryId = resultSet.getInt("id");
+                    return new Category(categoryId, categoryName);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting category by name: " + e.getMessage());
         }
         return null; // Category not found
     }
