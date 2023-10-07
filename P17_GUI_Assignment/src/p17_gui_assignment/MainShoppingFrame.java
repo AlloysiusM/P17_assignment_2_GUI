@@ -10,7 +10,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +44,9 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jLabel4.setText("Last Name: " + lastName);
         jLabel3.setText("Email: " + userEmail);
 
+        // Load categories into JComboBox
+        loadCategoriesIntoComboBox();
+
         // Create an instance of CategoryDB
         CategoryDB categoryDB = new CategoryDB();
 
@@ -57,14 +62,35 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         // Populate the items table
         populateItemsTable();
     }
+    
+    private void loadCategoriesIntoComboBox() {
+        CategoryDB categoryDB = new CategoryDB();
+        List<Category> categories = categoryDB.getAllCategories();
+
+        // Create a list of category names
+        List<String> categoryNames = new ArrayList<>();
+        for (Category category : categories) {
+            categoryNames.add(category.getName());
+        }
+
+        // Create a DefaultComboBoxModel with category names
+        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(categoryNames.toArray(new String[0]));
+
+        // Set the ComboBoxModel to the JComboBox
+        jComboBox1.setModel(comboBoxModel);
+
+        // Set the default selected index to 0
+        jComboBox1.setSelectedIndex(0);
+
+        // Trigger the action performed event to populate the items table for the default category
+        jComboBox1ActionPerformed(null);
+    }
 
     private void populateItemsTable() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
-        try (Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/OSS_DB", "admin17", "admin"); 
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM ITEMS"); 
-                ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/OSS_DB", "admin17", "admin"); PreparedStatement statement = connection.prepareStatement("SELECT * FROM ITEMS"); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("ID");
@@ -74,6 +100,32 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 String categoryName = resultSet.getString("CATEGORY_ID");
 
                 Object[] rowData = {id, name, price, productInfo, categoryName};
+                model.addRow(rowData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any database errors here
+        }
+    }
+    
+    private void populateItemsTableByCategory(int categoryId) {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+
+        try (Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/OSS_DB", "admin17", "admin"); PreparedStatement statement = connection.prepareStatement("SELECT * FROM ITEMS WHERE CATEGORY_ID = ?")) {
+            if (categoryId != -1) {
+                statement.setInt(1, categoryId);
+            }
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("ID");
+                String name = resultSet.getString("NAME");
+                double price = resultSet.getDouble("PRICE");
+                String productInfo = resultSet.getString("PRODUCTINFO");
+                int category = resultSet.getInt("CATEGORY_ID");
+
+                Object[] rowData = {id, name, price, productInfo, category};
                 model.addRow(rowData);
             }
         } catch (SQLException e) {
@@ -196,6 +248,9 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         Catgory = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         shoppingCart = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -412,15 +467,47 @@ public class MainShoppingFrame extends javax.swing.JFrame {
 
         Catgory.setBackground(new java.awt.Color(255, 102, 102));
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Price", "Info", "Category"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
         javax.swing.GroupLayout CatgoryLayout = new javax.swing.GroupLayout(Catgory);
         Catgory.setLayout(CatgoryLayout);
         CatgoryLayout.setHorizontalGroup(
             CatgoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 625, Short.MAX_VALUE)
+            .addGroup(CatgoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(CatgoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+                    .addGroup(CatgoryLayout.createSequentialGroup()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         CatgoryLayout.setVerticalGroup(
             CatgoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 361, Short.MAX_VALUE)
+            .addGroup(CatgoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         layoutCard.add(Catgory, "card4");
@@ -506,6 +593,31 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         cardLayout.show(layoutCard, "card5");
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // Get the selected category name from the JComboBox
+        String selectedCategoryName = (String) jComboBox1.getSelectedItem();
+
+        // If selectedCategoryName is null or empty, return
+        if (selectedCategoryName == null || selectedCategoryName.isEmpty()) {
+            return;
+        }
+
+        // Get the Category object based on the selected category name
+        CategoryDB categoryDB = new CategoryDB();
+        Category selectedCategory = categoryDB.getCategoryByName(selectedCategoryName);
+
+        // If selectedCategory is null, return
+        if (selectedCategory == null) {
+            return;
+        }
+
+        // Get the selected category's ID
+        int categoryId = selectedCategory.getId();
+
+        // Populate the items table based on the selected category
+        populateItemsTableByCategory(categoryId);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Catgory;
@@ -515,6 +627,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -524,7 +637,9 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JPanel layoutCard;
     private javax.swing.JPanel profilePanel;
     private javax.swing.JPanel shoppingCart;
