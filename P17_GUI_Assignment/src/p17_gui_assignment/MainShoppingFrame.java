@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class MainShoppingFrame extends javax.swing.JFrame {
 
     CardLayout cardLayout;
-    private ItemDB itemDB;
+    ItemDB itemDB;
 
     private String userEmail;
 
@@ -42,26 +42,43 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jLabel4.setText("Last Name: " + lastName);
         jLabel3.setText("Email: " + userEmail);
 
-        // Create an instance of CategoryDB (assuming CategoryDB is a class)
-        CategoryDB categoryDB = new CategoryDB(/* constructor arguments if any */);
+        // Create an instance of CategoryDB
+        CategoryDB categoryDB = new CategoryDB();
 
-        // Pass the CategoryDB object to the ItemDB constructor
+        // Create an instance of ItemDB and pass the CategoryDB instance
         itemDB = new ItemDB(categoryDB);
 
-        // Call the method to populate the table with items AFTER initializing itemDB
-        populateItemsTable();
+        // ... other initialization code
+        // Set the table model and populate the items table
+        String[] columnNames = {"ID", "Name", "Price", "Info", "Category"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        jTable1.setModel(model);
 
+        // Populate the items table
+        populateItemsTable();
     }
 
-    // Method to populate the table with items
     private void populateItemsTable() {
-        List<Item> items = itemDB.getAllItems();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
-        for (Item item : items) {
-            Object[] rowData = {item.getId(), item.getName(), item.getPrice(), item.getProductInfo(), item.getCategory().getName()};
-            model.addRow(rowData);
+        try (Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/OSS_DB", "admin17", "admin"); 
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM ITEMS"); 
+                ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("ID");
+                String name = resultSet.getString("NAME");
+                double price = resultSet.getDouble("PRICE");
+                String productInfo = resultSet.getString("PRODUCTINFO");
+                String categoryName = resultSet.getString("CATEGORY_ID");
+
+                Object[] rowData = {id, name, price, productInfo, categoryName};
+                model.addRow(rowData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any database errors here
         }
     }
 
