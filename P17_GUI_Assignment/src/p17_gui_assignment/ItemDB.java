@@ -121,7 +121,8 @@ public class ItemDB {
     public List<Item> getAllItems() {
         List<Item> items = new ArrayList<>();
         String selectAllItemsSQL = "SELECT * FROM items";
-        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(selectAllItemsSQL); ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(selectAllItemsSQL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
                 String name = resultSet.getString("name");
