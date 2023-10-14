@@ -13,6 +13,7 @@ public abstract class Item {
     private String id;
     private String name;
     private double price;
+
     private String productInfo;
     private Category category;
 
@@ -42,6 +43,26 @@ public abstract class Item {
 
     public Category getCategory() {
         return category;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setProductInfo(String productInfo) {
+        this.productInfo = productInfo;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
 }
