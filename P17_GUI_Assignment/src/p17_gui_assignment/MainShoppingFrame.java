@@ -403,6 +403,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
 
         allProductsPanel.setBackground(new java.awt.Color(101, 157, 189));
         allProductsPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        allProductsPanel.setPreferredSize(new java.awt.Dimension(523, 361));
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
@@ -452,12 +453,13 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             .addGroup(allProductsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(productAddBtn)
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
         layoutCard.add(allProductsPanel, "card3");
+        allProductsPanel.getAccessibleContext().setAccessibleName("");
 
         profilePanel.setBackground(new java.awt.Color(101, 157, 189));
         profilePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -706,6 +708,9 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public UsersCart getUsersCart() {
+        return usersCart;
+    }
 
     private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
         cardLayout.show(layoutCard, "card2");
@@ -732,7 +737,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         cardLayout.show(layoutCard, "card5");
     }//GEN-LAST:event_cartBtnActionPerformed
 
-    private void addProductToCart(int productId, String productName, double productPrice, String productInfo) {
+    public void addProductToCart(int productId, String productName, double productPrice, String productInfo) {
         // Assuming usersCart is an instance of your UsersCart class
         usersCart.addToCart(productId, productName, productPrice, productInfo);
 
