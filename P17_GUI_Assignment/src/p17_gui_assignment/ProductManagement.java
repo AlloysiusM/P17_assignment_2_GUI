@@ -36,7 +36,7 @@ public class ProductManagement {
     }
 
     public List<Item> getAllItems() {
-        // Assuming you have a method in ItemDB to retrieve all items
+        // Assuming you have a method in ItemDB to retrieve all items\
         return itemDB.getAllItems();
     }
 
