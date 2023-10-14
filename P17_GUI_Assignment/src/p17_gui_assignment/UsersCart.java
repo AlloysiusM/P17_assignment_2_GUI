@@ -23,6 +23,10 @@ public class UsersCart {
         return total;
     }
 
+    public int getCartSize() {
+        return cartListModel.size();
+    }
+
     public UsersCart() {
         cartListModel = new DefaultListModel<>();
         total = 0;
