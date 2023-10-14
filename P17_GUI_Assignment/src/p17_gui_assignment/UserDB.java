@@ -15,7 +15,8 @@ import java.sql.SQLException;
  * @author Albrent Manlutac
  */
 public class UserDB {
-   public void createUsersTable() {
+
+    public void createUsersTable() {
         try {
             Connection connection = DB_Manager.getConnection();
 
@@ -64,6 +65,5 @@ public class UserDB {
             e.printStackTrace();
             // Handle any SQL errors here
         }
-    } 
+    }
 }
-
