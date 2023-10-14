@@ -23,7 +23,7 @@ public class Login extends javax.swing.JFrame {
         setResizable(false); // Disable resizing
     }
 
-    private boolean isValidUser(String email, String password) {
+    public boolean isValidUser(String email, String password) {
         try {
             Connection connection = DB_Manager.getConnection();
             String query = "SELECT * FROM users WHERE email = ? AND password = ?";
