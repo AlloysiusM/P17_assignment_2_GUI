@@ -21,11 +21,7 @@ public class SignUp extends javax.swing.JFrame {
         // Initialize UserDB
         userDB = new UserDB();
     }
-    
-    
 
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -179,13 +175,13 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       Login loginPage = new Login();
-    
-    // Make the Login window visible
-    loginPage.setVisible(true);
-    
-    // Close the current sign-up window
-    this.dispose();
+        Login loginPage = new Login();
+
+        // Make the Login window visible
+        loginPage.setVisible(true);
+
+        // Close the current sign-up window
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
