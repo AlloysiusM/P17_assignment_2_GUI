@@ -32,11 +32,16 @@ public class CategoryDB {
     // Method to insert a category into the categories table
     public void insertCategory(Category category) {
         // Check if the category with the given ID already exists
-        if (getCategoryById(category.getId()) != null) {
-            System.out.println("Category with ID " + category.getId() + " already exists. Skipping insertion.");
-            return;
+        Category existingCategory = getCategoryById(category.getId());
+        if (existingCategory != null) {
+            // Update the existing category with the new name
+            existingCategory.setName(category.getName());
+            updateCategory(existingCategory);
+            System.out.println("Category with ID " + category.getId() + " updated successfully.");
+            return; // Return after updating the existing category
         }
 
+        // Insert the new category
         String insertCategorySQL = "INSERT INTO categories (id, name) VALUES (?, ?)";
         try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(insertCategorySQL)) {
             preparedStatement.setInt(1, category.getId());
@@ -45,6 +50,29 @@ public class CategoryDB {
             System.out.println("Category with ID " + category.getId() + " inserted successfully.");
         } catch (SQLException e) {
             System.err.println("Error inserting category: " + e.getMessage());
+        }
+    }
+
+    // Method to update an existing category
+    public void updateCategory(Category category) {
+        String updateCategorySQL = "UPDATE categories SET name = ? WHERE id = ?";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(updateCategorySQL)) {
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setInt(2, category.getId());
+            preparedStatement.executeUpdate(); // Execute the update query to update the category in the database
+            System.out.println("Category with ID " + category.getId() + " updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error updating category: " + e.getMessage());
+        }
+    }
+
+    public void clearCategories() {
+        String clearCategoriesSQL = "DELETE FROM categories";
+        try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(clearCategoriesSQL)) {
+            preparedStatement.executeUpdate();
+            System.out.println("All categories cleared from the database.");
+        } catch (SQLException e) {
+            System.err.println("Error clearing categories: " + e.getMessage());
         }
     }
 
