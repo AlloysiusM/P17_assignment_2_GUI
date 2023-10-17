@@ -25,6 +25,7 @@ public abstract class Item {
         this.category = category;
     }
 
+    // Getters
     public String getId() {
         return id;
     }
@@ -45,6 +46,7 @@ public abstract class Item {
         return category;
     }
 
+    // Setters
     public void setId(String id) {
         this.id = id;
     }
