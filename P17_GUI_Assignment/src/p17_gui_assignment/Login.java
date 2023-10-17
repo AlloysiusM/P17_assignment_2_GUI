@@ -23,6 +23,7 @@ public class Login extends javax.swing.JFrame {
         setResizable(false); // Disable resizing
     }
 
+    // Method to check if user exists in DB
     public boolean isValidUser(String email, String password) {
         try {
             Connection connection = DB_Manager.getConnection();
@@ -35,7 +36,6 @@ public class Login extends javax.swing.JFrame {
             return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle any SQL errors here
         }
         return false;
     }
@@ -195,7 +195,6 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // Action for enter button
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // Get user-entered email and password
         String email = jTextField1.getText();
@@ -217,6 +216,7 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    // Signup button
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
 
         SignUp signUpFrame = new SignUp();
