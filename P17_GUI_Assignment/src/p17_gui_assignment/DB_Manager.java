@@ -16,9 +16,10 @@ public class DB_Manager {
 
     private static Connection connection;
     private static final String DB_URL = "jdbc:derby://localhost:1527/OSS_DB";
-    private static final String DB_USER = "admin17"; // Replace with your Derby usernanme
-    private static final String DB_PASSWORD = "admin"; // Replace with your Derby password
+    private static final String DB_USER = "admin17";
+    private static final String DB_PASSWORD = "admin";
 
+    // Make DB connection
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             try {
@@ -26,7 +27,7 @@ public class DB_Manager {
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             } catch (SQLException e) {
                 e.printStackTrace();
-                throw e; // Rethrow the exception after printing the stack trace
+                throw e;
             }
         }
         return connection;
