@@ -41,7 +41,6 @@ public class UserDB {
             tables.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle any SQL errors here
         }
     }
 
@@ -63,7 +62,6 @@ public class UserDB {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle any SQL errors here
         }
     }
 }
