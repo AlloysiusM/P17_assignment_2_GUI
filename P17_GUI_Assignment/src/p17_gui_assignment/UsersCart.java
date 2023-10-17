@@ -19,39 +19,41 @@ public class UsersCart {
     private DefaultListModel<String> cartListModel;
     private double total;
 
-    public double getTotal() {
-        return total;
-    }
-
-    public int getCartSize() {
-        return cartListModel.size();
-    }
-
     public UsersCart() {
         cartListModel = new DefaultListModel<>();
         total = 0;
     }
 
+    // Adds a product to the cart and updates the total price
     public void addToCart(int productId, String productName, double productPrice, String productInfo) {
-        // Add the selected product details to the cartListModel
+        // Format the product details and add them to the cartListModel
         String item = productId + ": " + productName + " - $" + productPrice;
         cartListModel.addElement(item);
 
-        // Update the total price when adding a new item
+        // Update the total price by adding the price of the added item
         total += productPrice;
     }
 
+    // Returns the total price of items in the cart
+    public double getTotal() {
+        return total;
+    }
+
+    // Returns the number of items in the cart
+    public int getCartSize() {
+        return cartListModel.size();
+    }
+
+    // Returns the cartListModel containing cart items
     public DefaultListModel<String> getCartListModel() {
         return cartListModel;
     }
 
+    // Removes an item from the cart by its index and updates the total price
     public void removeFromCart(int index) {
         if (index >= 0 && index < cartListModel.size()) {
-            // Get the item from the cartListModel
-            String item = cartListModel.getElementAt(index);
-
             // Extract the price of the item being removed and subtract it from the total
-            double price = Double.parseDouble(item.split(" - \\$")[1]);
+            double price = Double.parseDouble(cartListModel.getElementAt(index).split(" - \\$")[1]);
             total -= price;
 
             // Remove the item from the cartListModel
@@ -59,6 +61,7 @@ public class UsersCart {
         }
     }
 
+    // Clears all items from the cart and resets the total price to 0
     public void clearCart() {
         cartListModel.clear();
         total = 0;
