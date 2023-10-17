@@ -16,13 +16,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// Handles database operations related to categories in the online shopping system.
 public class CategoryDB {
 
     // Method to create the categories table if it does not exist
     public void createCategoriesTable() {
         try (Connection connection = DB_Manager.getConnection()) {
-            System.out.println("Connection established successfully."); // Add this line for debugging
-            // existing code for table creation
+            System.out.println("Connection established successfully."); // Debug line
         } catch (SQLException e) {
             System.err.println("Error creating categories table: " + e.getMessage());
             e.printStackTrace(); // Print the full stack trace for debugging
@@ -66,6 +66,7 @@ public class CategoryDB {
         }
     }
 
+    // Method to clear all categories from the database
     public void clearCategories() {
         String clearCategoriesSQL = "DELETE FROM categories";
         try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(clearCategoriesSQL)) {
@@ -76,6 +77,7 @@ public class CategoryDB {
         }
     }
 
+    // Method to get a category by its ID
     public Category getCategoryById(int categoryId) {
         String getCategorySQL = "SELECT * FROM categories WHERE id = ?";
         try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(getCategorySQL)) {
@@ -92,6 +94,7 @@ public class CategoryDB {
         return null; // Category not found
     }
 
+    // Method to get a list of all categories
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
         String getAllCategoriesSQL = "SELECT * FROM categories";
@@ -110,6 +113,7 @@ public class CategoryDB {
         return categories;
     }
 
+    // Method to get a category by its name
     public Category getCategoryByName(String categoryName) {
         String getCategorySQL = "SELECT * FROM categories WHERE name = ?";
         try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(getCategorySQL)) {
