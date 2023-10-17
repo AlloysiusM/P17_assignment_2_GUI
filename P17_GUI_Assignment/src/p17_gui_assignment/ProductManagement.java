@@ -15,33 +15,34 @@ public class ProductManagement {
     private CategoryDB categoryDB;
     private ItemDB itemDB;
 
-    // Constructor to initialize CategoryDB and ItemDB
+    // Initialize CategoryDB and ItemDB
     public ProductManagement(CategoryDB categoryDB, ItemDB itemDB) {
         this.categoryDB = categoryDB;
         this.itemDB = itemDB;
     }
 
+    // Adds a new item to the system
     public void addNewItem(Item item) {
         itemDB.insertItem(item);
     }
 
+    // Updates an existing item in the system
     public void updateItem(Item item) {
-        // Assuming you have a method in ItemDB to update an item
         itemDB.updateItem(item);
     }
 
+    // Deletes an item from the system by its ID
     public void deleteItem(String itemId) {
-        // Assuming you have a method in ItemDB to delete an item by ID
         itemDB.deleteItem(itemId);
     }
 
+    // Retrieves a list of all items in the system
     public List<Item> getAllItems() {
-        // Assuming you have a method in ItemDB to retrieve all items\
         return itemDB.getAllItems();
     }
 
+    // Retrieves a list of items in a specific category
     public List<Item> getItemsByCategory(Category category) {
-        // Assuming you have a method in ItemDB to retrieve items by category
         return itemDB.getItemsByCategory(category);
     }
 }
