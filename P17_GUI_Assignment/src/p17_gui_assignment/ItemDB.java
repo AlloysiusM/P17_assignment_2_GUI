@@ -20,7 +20,7 @@ public class ItemDB {
 
     private CategoryDB categoryDB;
 
-    // Constructor to initialize CategoryDB
+    // Initialize CategoryDB
     public ItemDB(CategoryDB categoryDB) {
         this.categoryDB = categoryDB;
     }
@@ -54,6 +54,7 @@ public class ItemDB {
         }
     }
 
+    // Method to insert an item into the items table
     public void insertItem(Item item) {
         createItemsTable(); // Ensure the table exists before inserting
 
@@ -80,6 +81,7 @@ public class ItemDB {
         }
     }
 
+    // Method to get an item by its ID
     public Item getItemById(String itemId) {
         String getItemSQL = "SELECT * FROM items WHERE id = ?";
         try (Connection connection = DB_Manager.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(getItemSQL)) {
@@ -132,6 +134,7 @@ public class ItemDB {
         }
     }
 
+    // Method to retrieve a list of all items from the items table
     public List<Item> getAllItems() {
         List<Item> items = new ArrayList<>();
         String selectAllItemsSQL = "SELECT * FROM items";
@@ -172,6 +175,7 @@ public class ItemDB {
         return items;
     }
 
+    // Method to retrieve a list of items belonging to a specific category
     public List<Item> getItemsByCategory(Category category) {
         List<Item> items = new ArrayList<>();
         String selectItemsByCategorySQL = "SELECT * FROM items WHERE category_id = ?";
