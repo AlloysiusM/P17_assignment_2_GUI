@@ -10,6 +10,7 @@ package p17_gui_assignment;
  */
 class Product extends Item {
 
+    // Using abstract item variables
     public Product(String id, String name, double price, String productInfo, Category category) {
         super(id, name, price, productInfo, category);
     }
