@@ -18,6 +18,7 @@ class Category {
         this.name = name;
     }
 
+    // Getters 
     public String getName() {
         return name;
     }
@@ -26,10 +27,12 @@ class Category {
         return id;
     }
 
+    // Setters
     public void setName(String name) {
         this.name = name;
     }
 
+    // Return name
     @Override
     public String toString() {
         return name;
