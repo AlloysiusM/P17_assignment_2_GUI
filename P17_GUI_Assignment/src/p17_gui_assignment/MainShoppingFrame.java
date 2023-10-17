@@ -37,33 +37,37 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     }
 
     private void initializeFrame(String userEmail) {
-        setSize(900, 500);
-        setResizable(false);
+        setSize(900, 500); // Set the initial size of the frame
+        setResizable(false); // Disable frame resizing
 
-        this.userEmail = userEmail;
-        userLabel.setText("User: " + userEmail);
-        cardLayout = (CardLayout) layoutCard.getLayout();
-        cardLayout.show(layoutCard, "ProfilePanel");
+        this.userEmail = userEmail; // Store the user's email address
+        userLabel.setText("User: " + userEmail); // Display the user's email address in the UI
+        cardLayout = (CardLayout) layoutCard.getLayout(); // Initialize CardLayout for panel switching
+        cardLayout.show(layoutCard, "ProfilePanel"); // Show the profile panel by default
 
+        // Retrieve and display user's first name, last name, and email address from the database
         String firstName = getUserFirstNameFromDatabase(userEmail);
         String lastName = getUserLastNameFromDatabase(userEmail);
         firstNameLabel.setText("First Name: " + firstName);
         lastNameLabel.setText("Last Name: " + lastName);
         emailLabel.setText("Email: " + userEmail);
 
+        // Load product categories into the category selection combo box
         loadCategoriesIntoComboBox();
 
+        // Initialize CategoryDB and ItemDB for managing product categories and items
         CategoryDB categoryDB = new CategoryDB();
         itemDB = new ItemDB(categoryDB);
-        usersCart = new UsersCart();
+        usersCart = new UsersCart(); // Initialize the user's shopping cart
 
+        // Initialize the table model for displaying product information
         String[] columnNames = {"ID", "Name", "Price", "Info", "Category"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-        allProductsTable.setModel(model);
-        populateItemsTable();
+        allProductsTable.setModel(model); // Set the table model
+        populateItemsTable(); // Populate the items table with product data
 
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        ShoppingList.setModel(listModel);
+        ShoppingList.setModel(listModel); // Set the list model for the shopping cart panel
     }
 
     private void loadCategoriesIntoComboBox() {
@@ -90,11 +94,11 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             // Trigger the action performed event to populate the items table for the default category
             jComboBox1ActionPerformed(null);
         } else {
-            // Handle the case where categoryNames is empty, e.g., show a message or disable controls.
-            // You can add your error-handling logic here.
+            JOptionPane.showMessageDialog(this, "No categories available.", "Empty Category List", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
+    // Method to populate items table
     private void populateItemsTable() {
         DefaultTableModel model = (DefaultTableModel) allProductsTable.getModel();
         model.setRowCount(0);
@@ -113,10 +117,10 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle any database errors here
         }
     }
 
+    // Populate by category
     private void populateItemsTableByCategory(int categoryId) {
         DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
         model.setRowCount(0);
@@ -139,7 +143,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle any database errors here
         }
     }
 
@@ -164,7 +167,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle any database errors here
         } finally {
             // Close database resources properly in a finally block
             try {
@@ -207,7 +209,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle any database errors here
         } finally {
             // Close database resources properly in a finally block
             try {
@@ -708,14 +709,17 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Return users cart
     public UsersCart getUsersCart() {
         return usersCart;
     }
 
+    // Users profile panal
     private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
         cardLayout.show(layoutCard, "card2");
     }//GEN-LAST:event_profileBtnActionPerformed
 
+    // Logout button
     private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
         // Dispose of the current MainShoppingFrame
         this.dispose();
@@ -725,20 +729,24 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         loginFrame.setVisible(true);
     }//GEN-LAST:event_logOutBtnActionPerformed
 
+    // All products panal
     private void allProductsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allProductsBtnActionPerformed
         cardLayout.show(layoutCard, "card3");
     }//GEN-LAST:event_allProductsBtnActionPerformed
 
+    // Product category panal
     private void categoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryBtnActionPerformed
         cardLayout.show(layoutCard, "card4");
     }//GEN-LAST:event_categoryBtnActionPerformed
 
+    // Users cart panal
     private void cartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartBtnActionPerformed
         cardLayout.show(layoutCard, "card5");
     }//GEN-LAST:event_cartBtnActionPerformed
 
+    // Add product to users cart
     public void addProductToCart(int productId, String productName, double productPrice, String productInfo) {
-        // Assuming usersCart is an instance of your UsersCart class
+        
         usersCart.addToCart(productId, productName, productPrice, productInfo);
 
         // Update the JList model with the new cart items
@@ -752,10 +760,11 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         totalCartText.setText("Total: $" + String.format("%.2f", total));
     }
 
+    // Remove product from cart
     private void removeItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemBtnActionPerformed
         int selectedIndex = ShoppingList.getSelectedIndex();
         if (selectedIndex != -1) {
-            // Assuming usersCart is an instance of UsersCart class
+            
             usersCart.removeFromCart(selectedIndex);
 
             // Update the JList model with the updated cart items
@@ -774,9 +783,10 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_removeItemBtnActionPerformed
 
     private void detailsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsFieldActionPerformed
-        // TODO add your handling code here:
+        // Not in use method for now
     }//GEN-LAST:event_detailsFieldActionPerformed
 
+    // Add product btn for all products panal
     private void productAddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productAddBtnActionPerformed
         int selectedRow = allProductsTable.getSelectedRow();
         if (selectedRow != -1) {
@@ -785,7 +795,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             double productPrice = (double) allProductsTable.getValueAt(selectedRow, 2);
             String productInfo = (String) allProductsTable.getValueAt(selectedRow, 3);
 
-            // Assuming usersCart is an instance of your UsersCart class
             usersCart.addToCart(productId, productName, productPrice, productInfo);
 
             // Update the JList model with the new cart items
@@ -802,6 +811,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         totalCartText.setText("Total: $" + total);
     }//GEN-LAST:event_productAddBtnActionPerformed
 
+    // Add product btn for category panal
     private void categoryAddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryAddBtnActionPerformed
         int selectedRow = categoryTable.getSelectedRow();
         if (selectedRow != -1) {
@@ -818,6 +828,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_categoryAddBtnActionPerformed
 
+    // Combobox for category choice
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // Get the selected category name from the JComboBox
         String selectedCategoryName = (String) jComboBox1.getSelectedItem();
@@ -844,7 +855,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        // TODO add your handling code here:
+        // Not in use method for now
     }//GEN-LAST:event_passwordFieldActionPerformed
 
 
