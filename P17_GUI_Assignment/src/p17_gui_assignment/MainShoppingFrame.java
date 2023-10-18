@@ -261,6 +261,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         passwordField = new javax.swing.JTextField();
         detailsField = new javax.swing.JTextField();
         changePasswordBtn = new java.awt.Button();
+        jPasswordField1 = new javax.swing.JPasswordField();
         Catgory = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -295,7 +296,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             .addGap(0, 40, Short.MAX_VALUE)
         );
 
-        profileBtn.setBackground(new java.awt.Color(255, 255, 255));
         profileBtn.setForeground(new java.awt.Color(60, 63, 65));
         profileBtn.setText("Profile");
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -304,7 +304,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             }
         });
 
-        allProductsBtn.setBackground(new java.awt.Color(255, 255, 255));
         allProductsBtn.setForeground(new java.awt.Color(60, 63, 65));
         allProductsBtn.setText("All products");
         allProductsBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -313,7 +312,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             }
         });
 
-        categoryBtn.setBackground(new java.awt.Color(255, 255, 255));
         categoryBtn.setForeground(new java.awt.Color(60, 63, 65));
         categoryBtn.setText("Catgories");
         categoryBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -322,7 +320,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
             }
         });
 
-        cartBtn.setBackground(new java.awt.Color(255, 255, 255));
         cartBtn.setForeground(new java.awt.Color(60, 63, 65));
         cartBtn.setText("Shopping Cart");
         cartBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -370,7 +367,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         userLabel.setForeground(new java.awt.Color(60, 63, 65));
         userLabel.setText("User");
 
-        logOutBtn.setBackground(new java.awt.Color(255, 255, 255));
         logOutBtn.setForeground(new java.awt.Color(255, 153, 153));
         logOutBtn.setText("Logout");
         logOutBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -409,7 +405,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jScrollPane1.setBorder(null);
         jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
 
-        allProductsTable.setBackground(new java.awt.Color(255, 255, 255));
         allProductsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -426,7 +421,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         allProductsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(allProductsTable);
 
-        productAddBtn.setBackground(new java.awt.Color(255, 255, 255));
         productAddBtn.setForeground(new java.awt.Color(60, 63, 65));
         productAddBtn.setText("Add to Cart");
         productAddBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -504,6 +498,8 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         changePasswordBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         changePasswordBtn.setLabel("Change Password");
 
+        jPasswordField1.setText("jPasswordField1");
+
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
         profilePanelLayout.setHorizontalGroup(
@@ -517,7 +513,10 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                             .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lastNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(profilePanelLayout.createSequentialGroup()
+                                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(profilePanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(changePasswordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -535,10 +534,12 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(changePasswordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         layoutCard.add(profilePanel, "card2");
@@ -547,7 +548,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         Catgory.setBackground(new java.awt.Color(101, 157, 189));
         Catgory.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.setForeground(new java.awt.Color(60, 63, 65));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -572,7 +572,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         categoryTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(categoryTable);
 
-        categoryAddBtn.setBackground(new java.awt.Color(255, 255, 255));
         categoryAddBtn.setForeground(new java.awt.Color(60, 63, 65));
         categoryAddBtn.setText("Add to Cart");
         categoryAddBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -621,7 +620,6 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(ShoppingList);
 
-        removeItemBtn.setBackground(new java.awt.Color(255, 255, 255));
         removeItemBtn.setForeground(new java.awt.Color(60, 63, 65));
         removeItemBtn.setText("Remove");
         removeItemBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -855,7 +853,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        // Not in use method for now
+        
     }//GEN-LAST:event_passwordFieldActionPerformed
 
 
@@ -879,6 +877,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
