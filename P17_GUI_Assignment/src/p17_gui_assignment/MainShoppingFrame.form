@@ -435,7 +435,7 @@
                                   <Component id="changePasswordBtn" min="-2" pref="108" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="90" max="32767" attributes="0"/>
+                          <EmptySpace pref="94" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -585,7 +585,7 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="622" max="32767" attributes="0"/>
+                                  <EmptySpace pref="626" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -724,10 +724,14 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="removeItemBtn" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane5" min="-2" pref="111" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jScrollPane5" min="-2" pref="111" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="checkOutbtn" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Component id="jLabel1" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="271" max="32767" attributes="0"/>
+                          <EmptySpace pref="184" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -744,7 +748,10 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkOutbtn" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -808,6 +815,14 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Total:"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="checkOutbtn">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Checkout"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkOutbtnActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

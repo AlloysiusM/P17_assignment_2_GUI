@@ -274,6 +274,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         totalCartText = new javax.swing.JTextPane();
         jLabel1 = new javax.swing.JLabel();
+        checkOutbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -520,7 +521,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                     .addGroup(profilePanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(changePasswordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         profilePanelLayout.setVerticalGroup(
             profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -594,7 +595,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                         .addGap(89, 89, 89))
                     .addGroup(CatgoryLayout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(622, Short.MAX_VALUE))))
+                        .addContainerGap(626, Short.MAX_VALUE))))
         );
         CatgoryLayout.setVerticalGroup(
             CatgoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -634,6 +635,13 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Microsoft Himalaya", 0, 24)); // NOI18N
         jLabel1.setText("Total:");
 
+        checkOutbtn.setText("Checkout");
+        checkOutbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkOutbtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout shoppingCartLayout = new javax.swing.GroupLayout(shoppingCart);
         shoppingCart.setLayout(shoppingCartLayout);
         shoppingCartLayout.setHorizontalGroup(
@@ -644,9 +652,12 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(shoppingCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(removeItemBtn)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(shoppingCartLayout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(checkOutbtn))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         shoppingCartLayout.setVerticalGroup(
             shoppingCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -660,7 +671,9 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(shoppingCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkOutbtn))
                 .addGap(14, 14, 14))
         );
 
@@ -744,7 +757,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
 
     // Add product to users cart
     public void addProductToCart(int productId, String productName, double productPrice, String productInfo) {
-        
+
         usersCart.addToCart(productId, productName, productPrice, productInfo);
 
         // Update the JList model with the new cart items
@@ -762,7 +775,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private void removeItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemBtnActionPerformed
         int selectedIndex = ShoppingList.getSelectedIndex();
         if (selectedIndex != -1) {
-            
+
             usersCart.removeFromCart(selectedIndex);
 
             // Update the JList model with the updated cart items
@@ -853,8 +866,32 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        
+
     }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void checkOutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutbtnActionPerformed
+        // Check if there are items in the JList
+        if (ShoppingList.getModel().getSize() == 0) {
+            JOptionPane.showMessageDialog(this, "No items in the cart. Add items before checking out.", "Empty Cart", JOptionPane.WARNING_MESSAGE);
+        } else {
+            DefaultListModel<String> model = (DefaultListModel<String>) ShoppingList.getModel();
+
+            // Display a confirmation dialog
+            int choice = JOptionPane.showConfirmDialog(this,
+                    "Thank you for your purchase! Do you want to continue shopping?",
+                    "Purchase Complete", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+            if (choice == JOptionPane.YES_OPTION) {
+                // User wants to continue shopping, clear the cart and reset the total
+                model.clear();
+                totalCartText.setText("Total: $0.00");
+            } else {
+                // User does not want to continue, display thank you message and exit
+                JOptionPane.showMessageDialog(this, "Thank you for shopping! Goodbye!", "Thank You!", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            }
+        }
+    }//GEN-LAST:event_checkOutbtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -868,6 +905,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private javax.swing.JButton categoryBtn;
     private javax.swing.JTable categoryTable;
     private java.awt.Button changePasswordBtn;
+    private javax.swing.JButton checkOutbtn;
     private javax.swing.JTextField detailsField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel firstNameLabel;
