@@ -27,7 +27,8 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private ItemDB itemDB;
     private UsersCart usersCart;
     private String userEmail;
-
+    
+    private String newPassword;
     /**
      * Creates new form MainShoppingFrame
      */
@@ -262,6 +263,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         detailsField = new javax.swing.JTextField();
         changePasswordBtn = new java.awt.Button();
         jPasswordField1 = new javax.swing.JPasswordField();
+        emailLabel1 = new javax.swing.JLabel();
         Catgory = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -476,7 +478,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         passwordField.setBackground(new java.awt.Color(101, 157, 189));
         passwordField.setFont(new java.awt.Font("Microsoft Himalaya", 0, 24)); // NOI18N
         passwordField.setForeground(new java.awt.Color(60, 63, 65));
-        passwordField.setText("Password:");
+        passwordField.setText("New Password:");
         passwordField.setBorder(null);
         passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -498,8 +500,17 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         changePasswordBtn.setActionCommand("Change Password");
         changePasswordBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         changePasswordBtn.setLabel("Change Password");
+        changePasswordBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePasswordBtnActionPerformed(evt);
+            }
+        });
 
         jPasswordField1.setText("jPasswordField1");
+
+        emailLabel1.setFont(new java.awt.Font("Microsoft Himalaya", 0, 24)); // NOI18N
+        emailLabel1.setForeground(new java.awt.Color(60, 63, 65));
+        emailLabel1.setText("Forgot your password?");
 
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
@@ -513,15 +524,18 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                             .addComponent(detailsField, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lastNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(profilePanelLayout.createSequentialGroup()
-                                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(profilePanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(changePasswordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(94, Short.MAX_VALUE))
+                        .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(changePasswordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(profilePanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(emailLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         profilePanelLayout.setVerticalGroup(
             profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -534,13 +548,15 @@ public class MainShoppingFrame extends javax.swing.JFrame {
                 .addComponent(lastNameLabel)
                 .addGap(18, 18, 18)
                 .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(emailLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(changePasswordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(43, 43, 43))
         );
 
         layoutCard.add(profilePanel, "card2");
@@ -864,9 +880,15 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         // Populate the items table based on the selected category
         populateItemsTableByCategory(categoryId);
     }//GEN-LAST:event_jComboBox1ActionPerformed
+       
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+      
+        char[] newPasswordChars = jPasswordField1.getPassword();
+            newPassword = new String(newPasswordChars);
 
+    
+    
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void checkOutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutbtnActionPerformed
@@ -893,6 +915,32 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkOutbtnActionPerformed
 
+    private void changePasswordBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordBtnActionPerformed
+                                                   
+      char[] newPasswordChars = jPasswordField1.getPassword();
+    String newPassword = new String(newPasswordChars);
+
+    if (newPassword == null || newPassword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Password cannot be empty.");
+    } else {
+        // Get the user's email from the emailLabel text
+        String userEmailLabel = emailLabel.getText();
+        String userEmail = userEmailLabel.replace("Email: ", "").trim();
+
+        // Update the password in the database
+        DB_Manager.updatePassword(userEmail, newPassword);
+
+        // Optionally, clear the password field after the update
+        // Assuming jPasswordField1 is the JPasswordField, use the correct reference
+        jPasswordField1.setText("");
+
+        // Provide feedback to the user
+        JOptionPane.showMessageDialog(this, "Password updated successfully.");
+    }
+
+
+    }//GEN-LAST:event_changePasswordBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Catgory;
@@ -908,6 +956,7 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private javax.swing.JButton checkOutbtn;
     private javax.swing.JTextField detailsField;
     private javax.swing.JLabel emailLabel;
+    private javax.swing.JLabel emailLabel1;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
