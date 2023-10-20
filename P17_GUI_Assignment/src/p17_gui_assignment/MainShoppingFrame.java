@@ -27,8 +27,9 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     private ItemDB itemDB;
     private UsersCart usersCart;
     private String userEmail;
-    
+
     private String newPassword;
+
     /**
      * Creates new form MainShoppingFrame
      */
@@ -882,15 +883,14 @@ public class MainShoppingFrame extends javax.swing.JFrame {
         // Populate the items table based on the selected category
         populateItemsTableByCategory(categoryId);
     }//GEN-LAST:event_jComboBox1ActionPerformed
-       
+
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-      
-        char[] newPasswordChars = jPasswordField1.getPassword();
-            newPassword = new String(newPasswordChars);
 
-    
-    
+        char[] newPasswordChars = jPasswordField1.getPassword();
+        newPassword = new String(newPasswordChars);
+
+
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void checkOutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutbtnActionPerformed
@@ -918,29 +918,27 @@ public class MainShoppingFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_checkOutbtnActionPerformed
 
     private void changePasswordBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordBtnActionPerformed
-                                                   
-      char[] newPasswordChars = jPasswordField1.getPassword();
-    String newPassword = new String(newPasswordChars);
 
-    if (newPassword == null || newPassword.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Password cannot be empty.");
-    } else {
-        // Get the user's email from the emailLabel text
-        String userEmailLabel = emailLabel.getText();
-        String userEmail = userEmailLabel.replace("Email: ", "").trim();
+        char[] newPasswordChars = jPasswordField1.getPassword();
+        String newPassword = new String(newPasswordChars);
 
-        // Update the password in the database
-        DB_Manager.updatePassword(userEmail, newPassword);
+        if (newPassword == null || newPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Password cannot be empty.");
+        } else {
+            // Get the user's email from the emailLabel text
+            String userEmailLabel = emailLabel.getText();
+            String userEmail = userEmailLabel.replace("Email: ", "").trim();
 
-        // Optionally, clear the password field after the update
-        // Assuming jPasswordField1 is the JPasswordField, use the correct reference
-        jPasswordField1.setText("");
+            // Update the password in the database
+            DB_Manager.updatePassword(userEmail, newPassword);
 
-        // Provide feedback to the user
-        JOptionPane.showMessageDialog(this, "Password updated successfully.");
-    }
+            // Optionally, clear the password field after the update
+            // Assuming jPasswordField1 is the JPasswordField, use the correct reference
+            jPasswordField1.setText("");
 
-
+            // Provide feedback to the user
+            JOptionPane.showMessageDialog(this, "Password updated successfully.");
+        }
     }//GEN-LAST:event_changePasswordBtnActionPerformed
 
 
