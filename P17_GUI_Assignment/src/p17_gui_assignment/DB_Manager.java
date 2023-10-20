@@ -11,6 +11,7 @@ package p17_gui_assignment;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 public class DB_Manager {
 
@@ -33,4 +34,15 @@ public class DB_Manager {
         return connection;
     }
 
+    public static void updatePassword(String userEmail, String newPassword) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "UPDATE users SET password = ? WHERE email = ?")) {
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setString(2, userEmail);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
